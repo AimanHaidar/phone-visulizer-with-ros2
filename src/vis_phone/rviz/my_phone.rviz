@@ -52,7 +52,7 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        footprint:
+        base:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -61,6 +61,18 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        pitch_axis:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        roll_axis:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        yaw_axis:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
       Mass Properties:
         Inertia: false
         Mass: false
@@ -76,9 +88,15 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: true
-        footprint:
+        base:
           Value: true
         phone:
+          Value: true
+        pitch_axis:
+          Value: true
+        roll_axis:
+          Value: true
+        yaw_axis:
           Value: true
       Marker Scale: 0.30000001192092896
       Name: TF
@@ -86,15 +104,18 @@ Visualization Manager:
       Show Axes: true
       Show Names: false
       Tree:
-        footprint:
-          phone:
-            {}
+        base:
+          pitch_axis:
+            roll_axis:
+              yaw_axis:
+                phone:
+                  {}
       Update Interval: 0
       Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
-    Fixed Frame: phone
+    Fixed Frame: base
     Frame Rate: 60
   Name: root
   Tools:

@@ -4,6 +4,7 @@ from launch_ros.actions import Node
 from launch.substitutions import Command
 import os
 from ament_index_python.packages import get_package_share_path
+from ament_index_python.packages import get_package_share_directory
 
 def generate_launch_description():
 
@@ -12,12 +13,16 @@ def generate_launch_description():
     rviz_config_path = os.path.join(get_package_share_path('vis_phone'),
                                     'rviz', 'my_phone.rviz')
     
+    phone_orientation_params = os.path.join(
+        get_package_share_directory("vis_phone"), 
+        "config", "phone_orient_params.yaml")
+    
     robot_description = ParameterValue(Command(['xacro ', urdf_path]), value_type=str)
 
     phone_orientation_node = Node(
         package="phone_orientation",
         executable="phonesensor_node",
-        #parameters=[{'robot_description': robot_description}]
+        parameters=[phone_orientation_params]
     )
 
     rviz2_node = Node(

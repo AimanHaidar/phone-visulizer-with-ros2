@@ -10,7 +10,7 @@ find_package(ament_cmake REQUIRED)
 find_package(rviz2 REQUIRED)
 
 install(
-  DIRECTORY urdf rviz launch
+  DIRECTORY urdf rviz launch config
   DESTINATION share/${PROJECT_NAME}/
 )
 

@@ -8,6 +8,7 @@ from sensor_msgs.msg import JointState
 from builtin_interfaces.msg import Time
 from math import pi
 
+#rotatin_vector
 rot_raw = []
 class PhoneSensorsNode(Node):
     def __init__(self):

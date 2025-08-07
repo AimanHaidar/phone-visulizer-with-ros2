@@ -7,6 +7,7 @@ import numpy as np
 from sensor_msgs.msg import JointState
 from builtin_interfaces.msg import Time
 from math import pi
+import time
 
 #rotatin_vector
 rot_raw = []
@@ -37,17 +38,20 @@ class PhoneSensorsNode(Node):
             self.rotation_vector_publisher.publish(msg)
 
         except IndexError as ie:
-            self.get_logger().error("No data found!!")
+            self.get_logger().warn("sensorStream has not yet started!")
 
     #function to read the sensors from the phone by SensorStreamer App     
     def read_sensors(self):
-        try:
-            with PhoneSensorsClient(self.IP_address,self.port) as client:
-                for data in client:
-                    global rot_raw
-                    rot_raw = np.array(data.rot.values[0])
-        except Exception as e:
-            print(e)
+        while True:
+            try:
+                with PhoneSensorsClient(self.IP_address,self.port) as client:
+                    for data in client:
+                        global rot_raw
+                        rot_raw = np.array(data.rot.values[0])
+            except Exception as e:
+                time.sleep(1)
+                self.get_logger().warn("sensorStream is stopped!")
+                
 
 def main(args=None):
    rclpy.init(args=args)

@@ -16,6 +16,12 @@ class PhoneSensorsNode(Node):
         self.number_timer_ = self.create_timer(0.001, self.publish_rot_vec) 
         self.get_logger().info("rotation vector publisher has been started.")
 
+        #phone IP and port parameters
+        self.IPaddress_parameter = self.declare_parameter("phone_IP","192.168.0.75")
+        self.port_parameter = self.declare_parameter("IP_port",8080)
+        self.IP_address = self.get_parameter("phone_IP").value
+        self.port = self.get_parameter("IP_port").value
+
     def publish_rot_vec(self):
 
         """this funtion publisht the data come from the rotation vector
@@ -32,22 +38,22 @@ class PhoneSensorsNode(Node):
         except IndexError as ie:
             self.get_logger().error("No data found!!")
 
-#function to read the sensors from the phone by SensorStreamer App     
-def read_sensors():
-    try:
-        with PhoneSensorsClient("192.168.0.75", 8080) as client:
-            for data in client:
-                global rot_raw
-                rot_raw = np.array(data.rot.values[0])
-    except Exception as e:
-        print(e)
+    #function to read the sensors from the phone by SensorStreamer App     
+    def read_sensors(self):
+        try:
+            with PhoneSensorsClient(self.IP_address,self.port) as client:
+                for data in client:
+                    global rot_raw
+                    rot_raw = np.array(data.rot.values[0])
+        except Exception as e:
+            print(e)
 
 def main(args=None):
    rclpy.init(args=args)
    node = PhoneSensorsNode()
 
    # create new thread to run the read_sensor TCP client
-   sensors_thread = threading.Thread(target=read_sensors,daemon=True)
+   sensors_thread = threading.Thread(target=node.read_sensors,daemon=True)
    sensors_thread.start()
 
    rclpy.spin(node)

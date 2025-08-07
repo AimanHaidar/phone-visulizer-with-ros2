@@ -20,6 +20,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            "phonesensor_node = phone_orientation.phonesensor_node:main"
         ],
     },
 )

@@ -14,7 +14,7 @@ def generate_launch_description():
     
     robot_description = ParameterValue(Command(['xacro ', urdf_path]), value_type=str)
 
-    robot_state_publisher_node = Node(
+    phone_orientation_node = Node(
         package="phone_orientation",
         executable="phonesensor_node",
         #parameters=[{'robot_description': robot_description}]
@@ -26,7 +26,15 @@ def generate_launch_description():
         arguments=['-d', rviz_config_path]
     )
 
+    robot_state_publisher_node = Node(
+    package='robot_state_publisher',
+    executable='robot_state_publisher',
+    parameters=[{'robot_description': Command(['xacro ', urdf_path])}],
+    )
+
+
     return LaunchDescription([
         robot_state_publisher_node,
+        phone_orientation_node,
         rviz2_node
     ])

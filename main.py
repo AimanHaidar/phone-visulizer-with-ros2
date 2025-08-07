@@ -1,3 +1,4 @@
+from phonesensors import PhoneSensorsClient
 def main():
     print("Hello from phonegyro-ws!")
 

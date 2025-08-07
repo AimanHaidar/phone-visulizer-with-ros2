@@ -5,7 +5,28 @@
     <xacro:property name="phone_width" value="0.076" />
     <xacro:property name="phone_height" value="0.0088" />
 
-    <link name="footprint" />
+    <link name="base"/>
+
+    <link name="yaw_axis"/>
+    <joint name="base_to_yaw" type="fixed">
+        <parent link="base"/>
+        <child link="yaw_axis"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+
+    <link name="roll_axis"/>
+    <joint name="base_to_roll" type="fixed">
+        <parent link="base"/>
+        <child link="roll_axis"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+
+    <link name="pitch_axis"/>
+    <joint name="base_to_pitch" type="fixed">
+        <parent link="base"/>
+        <child link="pitch_axis"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
 
     <link name="phone">
         <visual>
@@ -16,10 +37,28 @@
         </visual>
     </link>
 
-    <joint name="j" type="fixed">
-        <parent link="footprint" />
+    <joint name="y" type="revolute">
+        <parent link="yaw_axis" />
         <child link="phone" />
-        <origin xyz="0 0 ${phone_height/2}" rpy="0 0 0" />
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <axis xyz="0 0 1"/>  
+        <limit lower="${-2*pi}" upper="${2*pi}" effort="10.0" velocity="1.0"/>
+    </joint>
+
+    <joint name="r" type="revolute">
+        <parent link="roll_axis" />
+        <child link="yaw_axis" />
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <axis xyz="0 1 0"/>  
+        <limit lower="${-2*pi}" upper="${2*pi}" effort="10.0" velocity="1.0"/>
+    </joint>
+
+    <joint name="p" type="revolute">
+        <parent link="pitch_axis" />
+        <child link="roll_axis" />
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <axis xyz="1 0 0"/>  
+        <limit lower="${-2*pi}" upper="${2*pi}" effort="10.0" velocity="1.0"/>
     </joint>
     
 </robot>

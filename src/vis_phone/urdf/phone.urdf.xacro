@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="my_phone">
+
+    <xacro:property name="phone_length" value="0.1631" />
+    <xacro:property name="phone_width" value="0.076" />
+    <xacro:property name="phone_height" value="0.0088" />
+
+    <link name="footprint" />
+
+    <link name="phone">
+        <visual>
+            <geometry>
+                <box size="${phone_length} ${phone_width} ${phone_height}" />
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+        </visual>
+    </link>
+
+    <joint name="j" type="fixed">
+        <parent link="footprint" />
+        <child link="phone" />
+        <origin xyz="0 0 ${phone_height/2}" rpy="0 0 0" />
+    </joint>
+    
+</robot>

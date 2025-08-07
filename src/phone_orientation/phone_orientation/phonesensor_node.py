@@ -4,34 +4,43 @@ from rclpy.node import Node
 from phonesensors import PhoneSensorsClient
 import threading
 import numpy as np
-from geometry_msgs.msg import Vector3
+from sensor_msgs.msg import JointState
+from builtin_interfaces.msg import Time
+from math import pi
 
 rot_raw = []
 class PhoneSensorsNode(Node):
     def __init__(self):
         super().__init__('my_phone_sensors')
-        self.rotation_vector_publisher = self.create_publisher(Vector3,'rot_vec',10)
-        self.number_timer_ = self.create_timer(1.0, self.publish_rot_vec)
+        self.rotation_vector_publisher = self.create_publisher(JointState,'joint_states',10) #to publish to the joint_states of rviz
+        self.number_timer_ = self.create_timer(0.001, self.publish_rot_vec) 
         self.get_logger().info("rotation vector publisher has been started.")
 
     def publish_rot_vec(self):
 
         """this funtion publisht the data come from the rotation vector
-            in the phones"""
+            in the phone to the joint_states topic to show in rviz"""
         
-        msg = Vector3()
-        msg.x = rot_raw[0]
-        msg.y = rot_raw[1]
-        msg.z = rot_raw[2]
-        self.rotation_vector_publisher.publish(msg)
-       
+        #handle IndexError until the Clint of phonesenors connect to the server app on phone
+        try:
+            msg = JointState()
+            msg.header.stamp = self.get_clock().now().to_msg()
+            msg.name = ['y', 'r', 'p']
+            msg.position = [pi*rot_raw[2], pi*rot_raw[0], -pi*rot_raw[1]]
+            self.rotation_vector_publisher.publish(msg)
+
+        except IndexError as ie:
+            self.get_logger().error("No data found!!")
 
 #function to read the sensors from the phone by SensorStreamer App     
 def read_sensors():
-    with PhoneSensorsClient("192.168.0.75", 8080) as client:
-        for data in client:
-            global rot_raw
-            rot_raw = np.array(data.rot.values[0])
+    try:
+        with PhoneSensorsClient("192.168.0.75", 8080) as client:
+            for data in client:
+                global rot_raw
+                rot_raw = np.array(data.rot.values[0])
+    except Exception as e:
+        print(e)
 
 def main(args=None):
    rclpy.init(args=args)

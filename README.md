@@ -31,12 +31,15 @@ pip install phonesensors
 or this if you are using uv and venv
 ```bash
     uv pip install -r requirements.txt
+    source /home/<username>/.venv/bin/activate
 ```
 after installing every thing go to the repo path from terminal and build and source the packages with 
 ```bash
 colcon build
 source ./install/setup.bash
 ```
+then connect your phonen and pc with the same network.
+
 now you are ready to start the program just run 
 ```bash
 ros2 launch vis_phone display.launch.py

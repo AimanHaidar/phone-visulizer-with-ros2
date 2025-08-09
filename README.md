@@ -1,21 +1,29 @@
-# Phone Visualizer with ROS2
-these packages give you the ability to visualze your phone with rviz2 and ros2 nodes and give you access to your phone rotation vector sensor instead of buying gryosope and make new application to extract rotation vector from angular speed
+# Phone Visualizer with ROS 2
 
-## requierments
-- ros2
-- phonesensor python package
-- SensorStreamer Android App https://apkpure.com/sensorstreamer/cz.honzamrazek.sensorstreamer/downloadApplication
-## how to run
-first you should set the SensorStreamer app:
+This project lets you visualize your phone in **RViz2** using ROS 2 nodes, giving you access to the phone's **Rotation Vector Sensor** without buying a physical gyroscope or creating a custom app to extract rotation vectors from angular speed.
 
-- add new connection from mange connection in the menu and set port greater than 1024, because less is used by android
+## Requirements
 
-- add new packet from manage packets and check the Rotation Vector Sensor
+- ROS 2
+- [`phonesensors` Python package](https://github.com/nup002/PhoneSensors.git)
+- [SensorStreamer Android App](https://apkpure.com/sensorstreamer/cz.honzamrazek.sensorstreamer/downloadApplication)
 
-then you should get your phone IP from setting->About phone->IP Adress.
+## Setup
 
-after you set the app, you should configure the ros2 packages with yaml file.
-go to src->vis_phone->config->phone_orient_params.yaml then edit the IP adress and the port
+### 1. Configure the SensorStreamer App
+
+1. Open **Manage Connections** → **Add New Connection**  
+   - Choose a **port greater than 1024** (lower ports are restricted by Android).
+2. Open **Manage Packets** → Add a new packet → Enable **Rotation Vector Sensor**.
+
+
+---
+
+### 2. Configure the ROS 2 Package
+- Get your phone’s IP address from: **Settings → About Phone → IP Address**.
+Edit the YAML file in:
+
+**Path:** `src/vis_phone/config/phone_orient_params.yaml`
 ```yaml
 /phonesensor_node:
   ros__parameters:
@@ -23,33 +31,54 @@ go to src->vis_phone->config->phone_orient_params.yaml then edit the IP adress a
     port: 8080
 ```
 
-then install the phonesensors python package with 
+---
 
+### 3. Install the `phonesensors` Package
+
+**Using pip:**
 ```bash
 pip install phonesensors
 ```
-or this if you are using uv and venv
-```bash
-    uv pip install -r requirements.txt
-    source /home/<username>/.venv/bin/activate
-```
-or install all the requirements in any virtual environment and source it.
 
-after installing every thing go to the repo path (.../repo-name/) from terminal and build and source the packages with 
+**Using uv + venv:**
+```bash
+uv pip install -r requirements.txt
+source /home/<username>/.venv/bin/activate
+```
+
+Or install all dependencies in any virtual environment and activate it.
+
+---
+
+### 4. Build and Source the ROS 2 Packages
+
+From the repository root (`.../repo-name/`):
+
 ```bash
 colcon build
 source ./install/setup.bash
 ```
-then connect your phone and pc with the same network.
 
-now you are ready to start the program just run 
+---
+
+### 5. Connect Devices
+
+Ensure your **phone** and **PC** are connected to the **same Wi-Fi network**.
+
+---
+
+### 6. Launch the Visualizer
+
+Run:
 ```bash
 ros2 launch vis_phone display.launch.py
 ```
-and click start on the SensorStreamer app to start streaming sensors data
 
-note: don't forget to source your ros2 path
+Then press **Start** in the SensorStreamer app to begin streaming data.
 
+---
 
-
-
+> **Note:** Don’t forget to source your ROS 2 environment before running:
+> ```bash
+> source /opt/ros/<ros-distro>/setup.bash
+> ```

@@ -33,6 +33,8 @@ or this if you are using uv and venv
     uv pip install -r requirements.txt
     source /home/<username>/.venv/bin/activate
 ```
+or install all the requirements in any virtual environment and source it.
+
 after installing every thing go to the repo path (.../repo-name/) from terminal and build and source the packages with 
 ```bash
 colcon build

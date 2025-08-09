@@ -10,11 +10,11 @@ first you should set the SensorStreamer app:
 
 - add new connection from mange connection in the menu and set port greater than 1024, because less is used by android
 
-- add new packet from manage packets
+- add new packet from manage packets and check the Rotation Vector Sensor
 
 then you should get your phone IP from setting->About phone->IP Adress.
 
-after that you set the app, you should configure the ros2 packages with yaml file.
+after you set the app, you should configure the ros2 packages with yaml file.
 go to src->vis_phone->config->phone_orient_params.yaml then edit the IP adress and the port
 ```yaml
 /phonesensor_node:
@@ -33,12 +33,12 @@ or this if you are using uv and venv
     uv pip install -r requirements.txt
     source /home/<username>/.venv/bin/activate
 ```
-after installing every thing go to the repo path from terminal and build and source the packages with 
+after installing every thing go to the repo path (.../repo-name/) from terminal and build and source the packages with 
 ```bash
 colcon build
 source ./install/setup.bash
 ```
-then connect your phonen and pc with the same network.
+then connect your phone and pc with the same network.
 
 now you are ready to start the program just run 
 ```bash
@@ -46,8 +46,7 @@ ros2 launch vis_phone display.launch.py
 ```
 and click start on the SensorStreamer app to start streaming sensors data
 
-note: don't forget to source your ros2
-
+note: don't forget to source your ros2 path
 
 
 

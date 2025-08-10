@@ -6,7 +6,7 @@ This project lets you visualize your phone in **RViz2** using ROS 2 nodes, givin
 
 - ROS 2
 - [`phonesensors` Python package](https://github.com/nup002/PhoneSensors.git)
-- [SensorStreamer Android App](https://apkpure.com/sensorstreamer/cz.honzamrazek.sensorstreamer/downloadApplication)
+- [SensorStreamer Android App](https://apkpure.com/sensorstreamer/cz.honzamrazek.sensorstreamer)
 
 ## Setup
 

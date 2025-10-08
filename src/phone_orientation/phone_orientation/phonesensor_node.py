@@ -13,16 +13,21 @@ import time
 rot_raw = []
 class PhoneSensorsNode(Node):
     def __init__(self):
-        super().__init__('my_phone_sensors')
-        self.rotation_vector_publisher = self.create_publisher(TFMessage,'tf',10) #to publish to the joint_states of rviz
-        self.number_timer_ = self.create_timer(0.001, self.publish_rot_vec) 
-        self.get_logger().info("rotation vector publisher has been started.")
+        super().__init__('phone_orientation')
 
         #phone IP and port parameters
         self.IPaddress_parameter = self.declare_parameter("phone_IP","192.168.0.75")
         self.port_parameter = self.declare_parameter("IP_port",8080)
+        self.topic_parameter = self.declare_parameter("topic","phone_tf")
         self.IP_address = self.get_parameter("phone_IP").value
         self.port = self.get_parameter("IP_port").value
+        self.topic = self.get_parameter("topic").value
+        # publisher to publish the rotation vector to tf topic
+        self.rotation_vector_publisher = self.create_publisher(TFMessage,self.topic,10) #to publish to the joint_states of rviz
+        self.number_timer_ = self.create_timer(0.001, self.publish_rot_vec) 
+        self.get_logger().info("rotation vector publisher has been started.")
+
+        
 
     def publish_rot_vec(self):
 

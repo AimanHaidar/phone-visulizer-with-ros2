@@ -1,4 +1,5 @@
-/phonesensor_node:
+/phone_orientation:
   ros__parameters:
-    IP_address: "192.168.0.75"
-    port: 8080
+    phone_IP: "192.168.0.75"
+    IP_port: 8080
+    topic: tf

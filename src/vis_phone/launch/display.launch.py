@@ -22,19 +22,34 @@ def generate_launch_description():
     phone_orientation_node = Node(
         package="phone_orientation",
         executable="phonesensor_node",
-        parameters=[phone_orientation_params]
+        parameters=[phone_orientation_params],
+        remappings=[
+           ('/tf','/phone/tf'),
+        ]
     )
 
     rviz2_node = Node(
         package="rviz2",
         executable="rviz2",
-        arguments=['-d', rviz_config_path]
+        arguments=['-d', rviz_config_path],
+        remappings=[
+            ('/tf','/phone/tf'),
+            ('/tf_static','/phone/tf_static'),
+            ('/joint_state','/phone/joint_state'),
+        ],
+        output="screen"
     )
 
     robot_state_publisher_node = Node(
-    package='robot_state_publisher',
-    executable='robot_state_publisher',
-    parameters=[{'robot_description': Command(['xacro ', urdf_path])}],
+        package='robot_state_publisher',
+        executable='robot_state_publisher',
+        namespace="phone",
+        parameters=[{'robot_description': Command(['xacro ', urdf_path])}],
+        remappings=[
+            ('/tf','/phone/tf'),
+            ('/tf_static','/phone/tf_static'),
+            ('/joint_state','/phone/joint_state'),
+        ],
     )
 
 
